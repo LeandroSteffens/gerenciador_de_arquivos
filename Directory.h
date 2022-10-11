@@ -54,7 +54,7 @@ Directory* EntraDiretorio(Directory* Atual, char Nome[]) {
                 return tmp;
             }
         }
-        printf("o sistema nao pode encontrar o caminho especificado.\n\n");
+        printf("o sistema nao pode encontrar o caminho especificado\n");
         tmp = Current;
     }
     return tmp;
@@ -281,8 +281,8 @@ Directory* DeletaElemento(Directory* Atual, char Nome[]) {
         }
     }
     //if(Count == 0){
-      //printf("Nao existe arquivo/pasta com esse nome\n");
-   //}
+      //printf("comando invalido\n");
+  // }
     return Aux;
 }
 //Fim da função
