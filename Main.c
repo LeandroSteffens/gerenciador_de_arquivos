@@ -69,7 +69,7 @@ int main() {
             strcpy(NomeAnt, Atual->Nome);
 
             if(Atual->Filho == NULL)
-              printf("Comando Invalido \n");
+              printf("comando invalido \n");
             else
             Atual = EntraDiretorio(Atual, Nome);
 
