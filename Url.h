@@ -47,7 +47,7 @@ url *AlocaElemento() {
 void MostraUrl(url *Url) {
 
     if (VerificaVazio(Url)) {
-        printf("Nao existe URL\n\n");
+        printf("nao existe URL\n\n");
         return;
     }
 
@@ -98,7 +98,7 @@ void InsereElementoUrl(url *Url, char v[]) {
 
 void *DesempilhaElementoUrl(url *Url) {
     if (Url->prox == NULL) {
-        printf("PILHA ja vazia\n\n");
+        printf("pilha ja vazia\n\n");
         return NULL;
     } else {
         url *ultimo = Url->prox, *penultimo = Url;

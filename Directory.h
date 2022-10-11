@@ -183,7 +183,7 @@ Directory* InserirFile(Directory* Atual, char Nome[]) {
 
 void MostrarDiretorios(Directory* Atual) {
     if (Atual->Filho == NULL)
-        printf("\n iretorio vazio \n");
+        printf("diretorio vazio \n");
     else {
         Atual = Atual->Filho;
         while (Atual != NULL)
@@ -203,7 +203,7 @@ void MostrarDiretorios(Directory* Atual) {
 void DeletaElementoAux(Directory *Atual) {
     if (Atual != NULL) {
         DeletaElementoAux(Atual->Filho);
-        printf("foi Deletado Com Sucesso: %s\n", Atual->Nome);
+        printf("foi deletado com sucesso: %s\n", Atual->Nome);
         free(Atual);
         DeletaElementoAux(Atual->Irmao);
     }
