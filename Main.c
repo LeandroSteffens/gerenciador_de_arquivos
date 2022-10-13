@@ -6,8 +6,8 @@ Leandro Steffens de Oliveira RGA:202021901032
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "Directory.h"
-#include "Url.h"
+#include "Dir.h"
+#include "End.h"
 
 void copyStr(char dest[], char orig[],int ini, int fim){
     int i=0;
@@ -24,14 +24,14 @@ int main() {
     char Nome[50], NomeAnt[50], Aux[20];
     int i,j = 0;
 
-    url *Url = (url *) malloc(sizeof (url));
-    InicializaUrl(Url);
+    end *End = (end *) malloc(sizeof (end));
+    InicializaEnd(End);
 
-    Directory* Root = Inicializar();
-    Directory* Atual = Root;
-    InsereElementoUrl(Url, Atual->Nome);
+    Dir* Root = Inicializar();
+    Dir* Atual = Root;
+    InsereElementoEnd(End, Atual->Nome);
     do {
-        MostraUrl(Url);
+        MostraEnd(End);
 
         fflush(stdin);
         fgets(cmdStr,55,stdin);
@@ -54,7 +54,7 @@ int main() {
 
         } else if (strncmp(Op, "mp", 2) == 0) {
 
-            Atual = InserirDirectory(Atual, Nome);
+            Atual = InserirDir(Atual, Nome);
 
         } else if (strncmp(Op, "cd ..", 5) == 0) {
             strcpy(NomeAnt, Atual->Nome);
@@ -62,7 +62,7 @@ int main() {
             Atual = VoltarDiretorio(Atual);
 
             if (strcmp(Atual->Nome, NomeAnt) != 0)
-                DesempilhaElementoUrl(Url);
+                DesempilhaElementoEnd(End);
 
         } else if (strncmp(Op, "cd", 2) == 0) {
 
@@ -74,7 +74,7 @@ int main() {
             Atual = EntraDiretorio(Atual, Nome);
 
             if (strcmp(Atual->Nome, NomeAnt) != 0)
-                InsereElementoUrl(Url, Atual->Nome);
+                InsereElementoEnd(End, Atual->Nome);
 
         } else if (strncmp(Op, "rm", 2) == 0) {
 
@@ -91,6 +91,6 @@ int main() {
 
 
     } while (1);
-    FinalizaPilha(Url);
+    FinalizaPilha(End);
     return 0;
 }

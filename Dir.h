@@ -3,27 +3,27 @@
 #include <stdlib.h>
 
 
-typedef struct directory {
+typedef struct dir {
     char Nome[50];
-    struct directory *Pai;
-    struct directory *Filho;
-    struct directory *Irmao;
+    struct dir *Pai;
+    struct dir *Filho;
+    struct dir *Irmao;
     int Tipo;
-} Directory;
+} Dir;
 
-Directory* Inicializar();
-Directory* InserirDirectory(Directory* Atual, char Nome[]);
-Directory* InserirFile(Directory* Atual, char Nome[]);
-void MostrarDiretorios(Directory* Atual);
-Directory* EntraDiretorio(Directory* Atual, char Nome[]);
-Directory* VoltarDiretorio(Directory* Atual);
-Directory* DeletaElemento(Directory* Atual, char Nome[]);
-void DeletaElementoAux(Directory *Atual);
+Dir* Inicializar();
+Dir* InserirDir(Dir* Atual, char Nome[]);
+Dir* InserirFile(Dir* Atual, char Nome[]);
+void MostrarDiretorios(Dir* Atual);
+Dir* EntraDiretorio(Dir* Atual, char Nome[]);
+Dir* VoltarDiretorio(Dir* Atual);
+Dir* DeletaElemento(Dir* Atual, char Nome[]);
+void DeletaElementoAux(Dir *Atual);
 
 //Função responsavel por inicializa a raiz do sistema de arquivos
 
-Directory* Inicializar() {
-    Directory* Root = (Directory*) malloc(sizeof (Directory));
+Dir* Inicializar() {
+    Dir* Root = (Dir*) malloc(sizeof (Dir));
     if (Root != NULL) {
         Root->Pai = NULL;
         strcpy(Root->Nome, "");
@@ -36,9 +36,9 @@ Directory* Inicializar() {
 
 //Função responsavel por entrar em um diretorio determinado pelo usuario
 
-Directory* EntraDiretorio(Directory* Atual, char Nome[]) {
-    Directory* tmp = (Directory*) malloc(sizeof (Directory));
-    Directory* Current = (Directory*) malloc(sizeof (Directory));
+Dir* EntraDiretorio(Dir* Atual, char Nome[]) {
+    Dir* tmp = (Dir*) malloc(sizeof (Dir));
+    Dir* Current = (Dir*) malloc(sizeof (Dir));
     Current = Atual;
     tmp = Atual;
 
@@ -62,7 +62,7 @@ Directory* EntraDiretorio(Directory* Atual, char Nome[]) {
 
 //Função responsavel por retornar a pasta pai
 
-Directory* VoltarDiretorio(Directory* Atual) {
+Dir* VoltarDiretorio(Dir* Atual) {
     if (Atual->Pai != NULL) {
         Atual = Atual->Pai;
     }
@@ -71,22 +71,22 @@ Directory* VoltarDiretorio(Directory* Atual) {
 
 //Função responsavel pela inserção de uma pasta
 
-Directory* InserirDirectory(Directory* Atual, char Nome[]) {
-    Directory* Pai = (Directory*) malloc(sizeof (Directory));
-    Directory* Aux = Atual;
-    Directory *novoDirectory = (Directory*) malloc(sizeof (Directory));
+Dir* InserirDir(Dir* Atual, char Nome[]) {
+    Dir* Pai = (Dir*) malloc(sizeof (Dir));
+    Dir* Aux = Atual;
+    Dir *novoDir = (Dir*) malloc(sizeof (Dir));
     Pai = Atual;
     if (Atual->Filho != NULL) {
         Atual = Atual->Filho;
         if (strcmp(Nome, Atual->Nome) < 0) {
             Aux = Atual;
 
-            Pai->Filho = novoDirectory;
-            novoDirectory->Pai = Pai;
-            novoDirectory->Irmao = Atual;
-            strcpy(novoDirectory->Nome, Nome);
-            novoDirectory->Filho = NULL;
-            novoDirectory->Tipo = 0;
+            Pai->Filho = novoDir;
+            novoDir->Pai = Pai;
+            novoDir->Irmao = Atual;
+            strcpy(novoDir->Nome, Nome);
+            novoDir->Filho = NULL;
+            novoDir->Tipo = 0;
         } else {
 
             while (Atual->Irmao != NULL)
@@ -95,53 +95,53 @@ Directory* InserirDirectory(Directory* Atual, char Nome[]) {
                 Atual = Atual->Irmao;
 
                 if (strcmp(Nome, Atual->Nome) < 0) {
-                    Aux->Irmao = novoDirectory;
-                    novoDirectory->Pai = Pai;
-                    novoDirectory->Irmao = Atual;
-                    strcpy(novoDirectory->Nome, Nome);
-                    novoDirectory->Filho = NULL;
-                    novoDirectory->Tipo = 0;
+                    Aux->Irmao = novoDir;
+                    novoDir->Pai = Pai;
+                    novoDir->Irmao = Atual;
+                    strcpy(novoDir->Nome, Nome);
+                    novoDir->Filho = NULL;
+                    novoDir->Tipo = 0;
                     return Pai;
                 }
 
             }
 
-            novoDirectory->Pai = Pai;
-            novoDirectory->Irmao = NULL;
-            Atual->Irmao = novoDirectory;
-            strcpy(novoDirectory->Nome, Nome);
-            novoDirectory->Filho = NULL;
-            novoDirectory->Tipo = 0;
+            novoDir->Pai = Pai;
+            novoDir->Irmao = NULL;
+            Atual->Irmao = novoDir;
+            strcpy(novoDir->Nome, Nome);
+            novoDir->Filho = NULL;
+            novoDir->Tipo = 0;
 
         }
     } else {
-        novoDirectory->Pai = Pai;
-        novoDirectory->Filho = NULL;
-        novoDirectory->Irmao = NULL;
-        novoDirectory->Tipo = 0;
-        strcpy(novoDirectory->Nome, Nome);
-        Atual->Filho = novoDirectory;
+        novoDir->Pai = Pai;
+        novoDir->Filho = NULL;
+        novoDir->Irmao = NULL;
+        novoDir->Tipo = 0;
+        strcpy(novoDir->Nome, Nome);
+        Atual->Filho = novoDir;
     }
     return Pai;
 }
 
 //Função responsavel pela inserção de um arquivo
-Directory* InserirFile(Directory* Atual, char Nome[]) {
-    Directory* Pai = (Directory*) malloc(sizeof (Directory));
-    Directory* Aux = Atual;
-    Directory *novoDirectory = (Directory*) malloc(sizeof (Directory));
+Dir* InserirFile(Dir* Atual, char Nome[]) {
+    Dir* Pai = (Dir*) malloc(sizeof (Dir));
+    Dir* Aux = Atual;
+    Dir *novoDir = (Dir*) malloc(sizeof (Dir));
     Pai = Atual;
     if (Atual->Filho != NULL) {
         Atual = Atual->Filho;
         if (strcmp(Nome, Atual->Nome) < 0) {
             Aux = Atual;
 
-            Pai->Filho = novoDirectory;
-            novoDirectory->Pai = Pai;
-            novoDirectory->Irmao = Atual;
-            strcpy(novoDirectory->Nome, Nome); 
-            novoDirectory->Filho = NULL;
-            novoDirectory->Tipo = 1;
+            Pai->Filho = novoDir;
+            novoDir->Pai = Pai;
+            novoDir->Irmao = Atual;
+            strcpy(novoDir->Nome, Nome); 
+            novoDir->Filho = NULL;
+            novoDir->Tipo = 1;
 
             while (Atual->Irmao != NULL)
             {
@@ -149,39 +149,39 @@ Directory* InserirFile(Directory* Atual, char Nome[]) {
                 Atual = Atual->Irmao; 
 
                 if (strcmp(Nome, Atual->Nome) < 0) {
-                    Aux->Irmao = novoDirectory;
-                    novoDirectory->Pai = Pai;
-                    novoDirectory->Irmao = Atual;
-                    strcpy(novoDirectory->Nome, Nome);
-                    novoDirectory->Filho = NULL;
-                    novoDirectory->Tipo = 1;
+                    Aux->Irmao = novoDir;
+                    novoDir->Pai = Pai;
+                    novoDir->Irmao = Atual;
+                    strcpy(novoDir->Nome, Nome);
+                    novoDir->Filho = NULL;
+                    novoDir->Tipo = 1;
                     return Pai;
                 }
 
             }
 
-            novoDirectory->Pai = Pai;
-            novoDirectory->Irmao = NULL;
-            Atual->Irmao = novoDirectory;
-            strcpy(novoDirectory->Nome, Nome);
-            novoDirectory->Filho = NULL;
-            novoDirectory->Tipo = 1;
+            novoDir->Pai = Pai;
+            novoDir->Irmao = NULL;
+            Atual->Irmao = novoDir;
+            strcpy(novoDir->Nome, Nome);
+            novoDir->Filho = NULL;
+            novoDir->Tipo = 1;
 
         }
     } else {
-        novoDirectory->Pai = Pai;
-        novoDirectory->Filho = NULL;
-        novoDirectory->Irmao = NULL;
-        novoDirectory->Tipo = 1;
-        strcpy(novoDirectory->Nome, Nome);
-        Atual->Filho = novoDirectory;
+        novoDir->Pai = Pai;
+        novoDir->Filho = NULL;
+        novoDir->Irmao = NULL;
+        novoDir->Tipo = 1;
+        strcpy(novoDir->Nome, Nome);
+        Atual->Filho = novoDir;
     }
     return Pai;
 }
 
 //Função responsavel por listar elementos dentro da pasta
 
-void MostrarDiretorios(Directory* Atual) {
+void MostrarDiretorios(Dir* Atual) {
     if (Atual->Filho == NULL)
         printf("diretorio vazio \n");
     else {
@@ -200,7 +200,7 @@ void MostrarDiretorios(Directory* Atual) {
 
 //Função auxiliar para deletar elementos
 
-void DeletaElementoAux(Directory *Atual) {
+void DeletaElementoAux(Dir *Atual) {
     if (Atual != NULL) {
         DeletaElementoAux(Atual->Filho);
         printf("foi deletado com sucesso: %s\n", Atual->Nome);
@@ -211,10 +211,10 @@ void DeletaElementoAux(Directory *Atual) {
 
 //Função de deletar elemento
 
-Directory* DeletaElemento(Directory* Atual, char Nome[]) {
+Dir* DeletaElemento(Dir* Atual, char Nome[]) {
     int Count = 0;
-    Directory *Aux = Atual;
-    Directory *Anterior = Atual;
+    Dir *Aux = Atual;
+    Dir *Anterior = Atual;
     Anterior = Atual->Filho;
 
     if (Atual->Filho == NULL)

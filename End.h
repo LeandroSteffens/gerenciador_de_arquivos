@@ -5,29 +5,29 @@
 typedef struct node {
     char Nome[50];
     struct node *prox;
-} url;
+} end;
 
 int tam;
 
-void InicializaUrl(url *Url);
-void MostraUrl(url *Url);
-url *AlocaElemento();
-int VerificaVazio(url *Url);
-void FinalizaPilha(url *Url);
-void InsereElementoUrl(url *Url, char v[]);
-void *DesempilhaElementoUrl(url *Url);
+void InicializaEnd(end *End);
+void MostraEnd(end *End);
+end *AlocaElemento();
+int VerificaVazio(end *End);
+void FinalizaPilha(end *End);
+void InsereElementoEnd(end *End, char v[]);
+void *DesempilhaElementoEnd(end *End);
 
 // Fução responsavel por inicializar o caixa
 
-void InicializaUrl(url *Url) {
-    Url->prox = NULL;
+void InicializaEnd(end *End) {
+    End->prox = NULL;
     tam = 0;
 }
 
 // Função responsavel por verificar se o caixa está vazio
 
-int VerificaVazio(url *Url) {
-    if (Url->prox == NULL)
+int VerificaVazio(end *End) {
+    if (End->prox == NULL)
         return 1;
     else
         return 0;
@@ -35,8 +35,8 @@ int VerificaVazio(url *Url) {
 
 // Função responsavel por alocar e retornar novo elemento que será inserido no caixa
 
-url *AlocaElemento() {
-    url *novo = (url *) malloc(sizeof (url));
+end *AlocaElemento() {
+    end *novo = (end *) malloc(sizeof (end));
     return novo;
 }
 
@@ -44,15 +44,15 @@ url *AlocaElemento() {
 
 // Função resonsavel por listar o caminho percorrido
 
-void MostraUrl(url *Url) {
+void MostraEnd(end *End) {
 
-    if (VerificaVazio(Url)) {
+    if (VerificaVazio(End)) {
         printf("nao existe URL\n\n");
         return;
     }
 
-    url* tmp;
-    tmp = Url->prox;
+    end* tmp;
+    tmp = End->prox;
     while (tmp != NULL) {
         printf("%s-", tmp->Nome);
         tmp = tmp->prox;
@@ -61,13 +61,13 @@ void MostraUrl(url *Url) {
 }
 
 
-// Função responsavel por finalizar a url e liberar toda a memoria alocada
+// Função responsavel por finalizar a end e liberar toda a memoria alocada
 
-void FinalizaPilha(url *Url) {
-    if (!VerificaVazio(Url)) {
-        url *proxNode, *atual;
+void FinalizaPilha(end *End) {
+    if (!VerificaVazio(End)) {
+        end *proxNode, *atual;
 
-        atual = Url->prox;
+        atual = End->prox;
         while (atual != NULL) {
             proxNode = atual->prox;
             free(atual);
@@ -76,17 +76,17 @@ void FinalizaPilha(url *Url) {
     }
 }
 
-// Função responsavel por inserir um novo elemento no url
+// Função responsavel por inserir um novo elemento no end
 
-void InsereElementoUrl(url *Url, char v[]) {
-    url *novo = AlocaElemento();
+void InsereElementoEnd(end *End, char v[]) {
+    end *novo = AlocaElemento();
     strcpy(novo->Nome, v);
     novo->prox = NULL;
 
-    if (VerificaVazio(Url))
-        Url->prox = novo;
+    if (VerificaVazio(End))
+        End->prox = novo;
     else {
-        url *tmp = Url->prox;
+        end *tmp = End->prox;
 
         while (tmp->prox != NULL)
             tmp = tmp->prox;
@@ -96,12 +96,12 @@ void InsereElementoUrl(url *Url, char v[]) {
     tam++;
 }
 
-void *DesempilhaElementoUrl(url *Url) {
-    if (Url->prox == NULL) {
+void *DesempilhaElementoEnd(end *End) {
+    if (End->prox == NULL) {
         printf("pilha ja vazia\n\n");
         return NULL;
     } else {
-        url *ultimo = Url->prox, *penultimo = Url;
+        end *ultimo = End->prox, *penultimo = End;
 
         while (ultimo->prox != NULL) {
             penultimo = ultimo;
