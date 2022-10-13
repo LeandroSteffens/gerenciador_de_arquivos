@@ -20,7 +20,7 @@ Dir* VoltarDiretorio(Dir* Atual);
 Dir* DeletaElemento(Dir* Atual, char Nome[]);
 void DeletaElementoAux(Dir *Atual);
 
-//Função responsavel por inicializa a raiz do sistema de arquivos
+//Função responsavel por inicializar a raiz do sistema de arquivos
 
 Dir* Inicializar() {
     Dir* Root = (Dir*) malloc(sizeof (Dir));
@@ -34,7 +34,7 @@ Dir* Inicializar() {
     return Root;
 }
 
-//Função responsavel por entrar em um diretorio determinado pelo usuario
+//Função responsavel por entrar em um diretório determinado pelo usuário
 
 Dir* EntraDiretorio(Dir* Atual, char Nome[]) {
     Dir* tmp = (Dir*) malloc(sizeof (Dir));
@@ -280,9 +280,5 @@ Dir* DeletaElemento(Dir* Atual, char Nome[]) {
             }
         }
     }
-    //if(Count == 0){
-      //printf("comando invalido\n");
-  // }
     return Aux;
 }
-//Fim da função
