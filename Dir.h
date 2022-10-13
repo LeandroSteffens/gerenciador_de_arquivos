@@ -11,7 +11,6 @@ typedef struct dir {
     struct dir *Irmao;
     int Tipo;
 } Dir;
-//Fim da definicação da estrutura
 
 //Inicio de declaração de Funções
 Dir* Inicializar();
@@ -22,203 +21,196 @@ Dir* EntraDiretorio(Dir* Atual, char Nome[]);
 Dir* VoltarDiretorio(Dir* Atual);
 Dir* DeletaElemento(Dir* Atual, char Nome[]);
 void DeletaElementoAux(Dir *Atual);
-//Fim de declaração de Funções
 
 //Função responsavel por inicializa a raiz do sistema de arquivos
 
 Dir* Inicializar() {
-    Dir* Root = (Dir*) malloc(sizeof (Dir)); //Aloca o novo elemento
-    if (Root != NULL) { //Verifica se o elemento foi alocado
-        Root->Pai = NULL; //Atribui null ao pai
-        strcpy(Root->Nome, ""); //Atribui o nome como root
-        Root->Irmao = NULL; //atribui ao irmao null
-        Root->Filho = NULL; //atribui ao filho null
-        Root->Tipo = 0; //atribui ao tipo o valor 0, que no sistema 0 é considerado como uma pasta
+    Dir* Root = (Dir*) malloc(sizeof (Dir));
+    if (Root != NULL) {
+        Root->Pai = NULL;
+        strcpy(Root->Nome, "");
+        Root->Irmao = NULL;
+        Root->Filho = NULL;
+        Root->Tipo = 0;
     }
-    return Root; //Retorna o elemento root
+    return Root;
 }
-//Fim da função
 
 //Função responsavel por entrar em um diretorio determinado pelo usuario
 
 Dir* EntraDiretorio(Dir* Atual, char Nome[]) {
-    Dir* tmp = (Dir*) malloc(sizeof (Dir)); //Aloca uma variavel temporaria
+    Dir* tmp = (Dir*) malloc(sizeof (Dir));
     Dir* Current = (Dir*) malloc(sizeof (Dir));
     Current = Atual;
-    tmp = Atual; //Atribui a variavel o atual
+    tmp = Atual;
 
-    Atual = Atual->Filho; //Pega o filho do atual
-    if ((strcmp(Atual->Nome, Nome) == 0)&&(Atual->Tipo == 0)) //Verifica se o nome do filho é o mesmo informado,se o tipo é uma pasta
-        tmp = Atual; //Caso seja atribui ao tmp o valor do atual
+    Atual = Atual->Filho;
+    if ((strcmp(Atual->Nome, Nome) == 0)&&(Atual->Tipo == 0))
+        tmp = Atual;
     else {
 
-        while (Atual->Irmao != NULL) { //Percorre os irmaos até encontrar um arquivo com o nome desejadp
-            Atual = Atual->Irmao; //Atribui ao atual o proximo irmao
-            if (strcmp(Atual->Nome, Nome) == 0 && Atual->Tipo == 0) { //Verifica se o nome do diretório é o mesmo que o usuário passou e se é uma pasta
-                tmp = Atual; //tmp recebe atual
-                return tmp; //retorna tmp
+        while (Atual->Irmao != NULL) {
+            Atual = Atual->Irmao;
+            if (strcmp(Atual->Nome, Nome) == 0 && Atual->Tipo == 0) {
+                tmp = Atual;
+                return tmp;
             }
         }
         printf("O Sistema nao pode encontrar o caminho especificado.\n\n");
         tmp = Current;
     }
-    return tmp; //Retorna o valor encontrado
+    return tmp;
 }
 
 //Função responsavel por retornar a pasta pai
 
 Dir* VoltarDiretorio(Dir* Atual) {
-    if (Atual->Pai != NULL) { //Verifica se o pai existe
-        Atual = Atual->Pai; //Atribui a atual o pai
+    if (Atual->Pai != NULL) {
+        Atual = Atual->Pai;
     }
-    return Atual; //Retorna o atual
+    return Atual;
 }
-//Fim da função
 
 //Função responsavel pela inserção de uma pasta
 
 Dir* InserirDir(Dir* Atual, char Nome[]) {
-    Dir* Pai = (Dir*) malloc(sizeof (Dir)); //Aloca um elemento
+    Dir* Pai = (Dir*) malloc(sizeof (Dir));
     Dir* Aux = Atual;
-    Dir *novoDir = (Dir*) malloc(sizeof (Dir)); //Aloca novo elemento
-    Pai = Atual; //Elemento pai recebe o atual
-    if (Atual->Filho != NULL) { //Verifica se se existe filho
-        Atual = Atual->Filho; //Atual recebe o filho
+    Dir *novoDir = (Dir*) malloc(sizeof (Dir));
+    Pai = Atual;
+    if (Atual->Filho != NULL) {
+        Atual = Atual->Filho;
         if (strcmp(Nome, Atual->Nome) < 0) {
             Aux = Atual;
 
             Pai->Filho = novoDir;
-            novoDir->Pai = Pai; //Atribui ao Pai o elemento pai
-            novoDir->Irmao = Atual; //Atribui ao Irmao o valor null
-            strcpy(novoDir->Nome, Nome); //Atribui um nome ao novo elemento
-            novoDir->Filho = NULL; //Atribui null ao filho do novo elemento
-            novoDir->Tipo = 0; //Atribui 0 ao Tipo representando uma pasta
+            novoDir->Pai = Pai;
+            novoDir->Irmao = Atual;
+            strcpy(novoDir->Nome, Nome);
+            novoDir->Filho = NULL;
+            novoDir->Tipo = 0;
         } else {
 
-            while (Atual->Irmao != NULL) //Percorre os diretorios enquanto ouverem irmaos
+            while (Atual->Irmao != NULL)
             {
                 Aux = Atual;
-                Atual = Atual->Irmao; //Pega o proximo irmao
+                Atual = Atual->Irmao;
 
                 if (strcmp(Nome, Atual->Nome) < 0) {
                     Aux->Irmao = novoDir;
-                    novoDir->Pai = Pai; //Atribui ao Pai o elemento pai
-                    novoDir->Irmao = Atual; //Atribui ao Irmao o valor null
-                    strcpy(novoDir->Nome, Nome); //Atribui um nome ao novo elemento
-                    novoDir->Filho = NULL; //Atribui null ao filho do novo elemento
-                    novoDir->Tipo = 0; //Atribui 0 ao Tipo representando uma pasta
+                    novoDir->Pai = Pai;
+                    novoDir->Irmao = Atual;
+                    strcpy(novoDir->Nome, Nome);
+                    novoDir->Filho = NULL;
+                    novoDir->Tipo = 0;
                     return Pai;
                 }
 
             }
 
-            novoDir->Pai = Pai; //Atribui ao Pai o elemento pai
-            novoDir->Irmao = NULL; //Atribui ao Irmao o valor null
-            Atual->Irmao = novoDir; // Atribui como irmao do atual o novo elemento
-            strcpy(novoDir->Nome, Nome); //Atribui um nome ao novo elemento
-            novoDir->Filho = NULL; //Atribui null ao filho do novo elemento
-            novoDir->Tipo = 0; //Atribui 0 ao Tipo representando uma pasta
+            novoDir->Pai = Pai;
+            novoDir->Irmao = NULL;
+            Atual->Irmao = novoDir;
+            strcpy(novoDir->Nome, Nome);
+            novoDir->Filho = NULL;
+            novoDir->Tipo = 0;
 
         }
     } else {
-        novoDir->Pai = Pai; //Atribui ao Pai o elemento pai
-        novoDir->Filho = NULL; //Atribui null ao filho do novo elemento
-        novoDir->Irmao = NULL; //Atribui ao Irmao o valor null
-        novoDir->Tipo = 0; //Atribui 0 ao Tipo representando uma pasta
-        strcpy(novoDir->Nome, Nome); //Atribui um nome ao novo elemento
-        Atual->Filho = novoDir; //Atribui ao Atual filho o novo elemento
+        novoDir->Pai = Pai;
+        novoDir->Filho = NULL;
+        novoDir->Irmao = NULL;
+        novoDir->Tipo = 0;
+        strcpy(novoDir->Nome, Nome);
+        Atual->Filho = novoDir;
     }
-    return Pai; //Retorna o elemento pai
+    return Pai;
 }
-//Fim da função
 
 //Função responsavel pela inserção de um arquivo
 Dir* InserirFile(Dir* Atual, char Nome[]) {
-    Dir* Pai = (Dir*) malloc(sizeof (Dir)); //Aloca um elemento
+    Dir* Pai = (Dir*) malloc(sizeof (Dir));
     Dir* Aux = Atual;
-    Dir *novoDir = (Dir*) malloc(sizeof (Dir)); //Aloca novo elemento
-    Pai = Atual; //Elemento pai recebe o atual
-    if (Atual->Filho != NULL) { //Verifica se se existe filho
-        Atual = Atual->Filho; //Atual recebe o filho
+    Dir *novoDir = (Dir*) malloc(sizeof (Dir));
+    Pai = Atual;
+    if (Atual->Filho != NULL) {
+        Atual = Atual->Filho;
         if (strcmp(Nome, Atual->Nome) < 0) {
             Aux = Atual;
 
             Pai->Filho = novoDir;
-            novoDir->Pai = Pai; //Atribui ao Pai o elemento pai
-            novoDir->Irmao = Atual; //Atribui ao Irmao o valor null
-            strcpy(novoDir->Nome, Nome); //Atribui um nome ao novo elemento
-            novoDir->Filho = NULL; //Atribui null ao filho do novo elemento
-            novoDir->Tipo = 1; //Atribui 0 ao Tipo representando uma pasta
+            novoDir->Pai = Pai;
+            novoDir->Irmao = Atual;
+            strcpy(novoDir->Nome, Nome);
+            novoDir->Filho = NULL;
+            novoDir->Tipo = 1;
         } else {
 
-            while (Atual->Irmao != NULL) //Percorre os diretorios enquanto ouverem irmaos
+            while (Atual->Irmao != NULL)
             {
                 Aux = Atual;
-                Atual = Atual->Irmao; //Pega o proximo irmao
+                Atual = Atual->Irmao;
 
                 if (strcmp(Nome, Atual->Nome) < 0) {
                     Aux->Irmao = novoDir;
-                    novoDir->Pai = Pai; //Atribui ao Pai o elemento pai
-                    novoDir->Irmao = Atual; //Atribui ao Irmao o valor null
-                    strcpy(novoDir->Nome, Nome); //Atribui um nome ao novo elemento
-                    novoDir->Filho = NULL; //Atribui null ao filho do novo elemento
-                    novoDir->Tipo = 1; //Atribui 0 ao Tipo representando uma pasta
+                    novoDir->Pai = Pai;
+                    novoDir->Irmao = Atual;
+                    strcpy(novoDir->Nome, Nome);
+                    novoDir->Filho = NULL;
+                    novoDir->Tipo = 1;
                     return Pai;
                 }
 
             }
 
-            novoDir->Pai = Pai; //Atribui ao Pai o elemento pai
-            novoDir->Irmao = NULL; //Atribui ao Irmao o valor null
-            Atual->Irmao = novoDir; // Atribui como irmao do atual o novo elemento
-            strcpy(novoDir->Nome, Nome); //Atribui um nome ao novo elemento
-            novoDir->Filho = NULL; //Atribui null ao filho do novo elemento
-            novoDir->Tipo = 1; //Atribui 0 ao Tipo representando uma pasta
+            novoDir->Pai = Pai;
+            novoDir->Irmao = NULL;
+            Atual->Irmao = novoDir;
+            strcpy(novoDir->Nome, Nome);
+            novoDir->Filho = NULL;
+            novoDir->Tipo = 1;
 
         }
     } else {
-        novoDir->Pai = Pai; //Atribui ao Pai o elemento pai
-        novoDir->Filho = NULL; //Atribui null ao filho do novo elemento
-        novoDir->Irmao = NULL; //Atribui ao Irmao o valor null
-        novoDir->Tipo = 1; //Atribui 0 ao Tipo representando uma pasta
-        strcpy(novoDir->Nome, Nome); //Atribui um nome ao novo elemento
-        Atual->Filho = novoDir; //Atribui ao Atual filho o novo elemento
+        novoDir->Pai = Pai;
+        novoDir->Filho = NULL;
+        novoDir->Irmao = NULL;
+        novoDir->Tipo = 1;
+        strcpy(novoDir->Nome, Nome);
+        Atual->Filho = novoDir;
     }
     return Pai; //Retorna o elemento pai
 }
-//Fim da função
 
 //Função responsavel por listar elementos dentro da pasta
 
 void MostrarDiretorios(Dir* Atual) {
-    if (Atual->Filho == NULL) //Verifica se existem arquivos
-        printf("\n diretorio Vazio \n\n"); //Exibe mensagem caso não houver
+    if (Atual->Filho == NULL)
+        printf("\n diretorio Vazio \n\n");
     else {
-        Atual = Atual->Filho; //Pega o filho do elemento atual
-        while (Atual != NULL) //Percorre enquanto o atual for diferente de null
+        Atual = Atual->Filho;
+        while (Atual != NULL)
         {
           if(Atual->Tipo == 0)
-            printf("%s-\n", Atual->Nome); //Imprime o nome do atual
+            printf("%s-\n", Atual->Nome);
           else
-          printf("%s\n", Atual->Nome); //Imprime o nome do atual
+          printf("%s\n", Atual->Nome);
 
-          Atual = Atual->Irmao; //Pega o proximo irmao
+          Atual = Atual->Irmao;
         }
     }
 }
-//Fim da função
 
 //Função auxiliar para deletar elementos
 
 void DeletaElementoAux(Dir *Atual) {
-    if (Atual != NULL) { //Veritica se o atual é diferente de null
-        DeletaElementoAux(Atual->Filho); //Chama a função novamente passando o proximo filho
+    if (Atual != NULL) {
+        DeletaElementoAux(Atual->Filho);
         printf("Foi Deletado Com Sucesso: %s\n", Atual->Nome);
-        free(Atual); //libera atual
-        DeletaElementoAux(Atual->Irmao); //Chama a função novamente passando o proximo irmao
+        free(Atual);
+        DeletaElementoAux(Atual->Irmao);
     }
 }
-//Fim da função
 
 //Função de deletar elemento
 
@@ -228,63 +220,63 @@ Dir* DeletaElemento(Dir* Atual, char Nome[]) {
     Dir *Anterior = Atual;
     Anterior = Atual->Filho;
 
-    if (Atual->Filho == NULL) //Verifica se o diretórito é vazio
+    if (Atual->Filho == NULL)
           printf("comando invalido\n");
-    else { //Caso não esteja vazio
-        Atual = Atual->Filho; //Atual recebe o filho
-        if (strcmp(Nome, Atual->Nome) == 0) { //Verifica se o filho é o arquivo desejado
+    else {
+        Atual = Atual->Filho;
+        if (strcmp(Nome, Atual->Nome) == 0) {
             Count++;
-            if (Atual->Irmao == NULL) { //Verifica se o arquivo não tem irmaos
-                if (Atual->Filho == NULL) { //Verifica se o arquivo não tem filhos
-                    free(Atual); //libera o atual
-                    Aux->Filho = NULL; //atribui null no elemento filho da pasta pai
-                    return Aux; //retorna a pasta pai
-                } else { //caso tenha filhos
-                    DeletaElementoAux(Atual->Filho); //chama função auxiliar para deletar demais elementos
-                    Aux->Filho = NULL; //O filho da pasta pai passa a ser o irmao do atual
-                    free(Atual); //libera o atual
-                    return Aux; //retorna a pasta pai
+            if (Atual->Irmao == NULL) {
+                if (Atual->Filho == NULL) {
+                    free(Atual);
+                    Aux->Filho = NULL;
+                    return Aux;
+                } else {
+                    DeletaElementoAux(Atual->Filho);
+                    Aux->Filho = NULL;
+                    free(Atual);
+                    return Aux;
                 }
-            } else { //se houverem irmaos
-                if (Atual->Filho == NULL) { //verifica se não tem filhos
-                    Aux->Filho = Atual->Irmao; //O filho da pasta pai passa a ser o irmao do atual
-                    free(Atual); //Libera o atual
-                    return Aux; //Retorna a pasta pai
-                } else { //caso tenha filhos
-                    Aux->Filho = Atual->Irmao; //O filho da pasta pai passa a ser o irmao do atual
-                    DeletaElementoAux(Atual->Filho); //chama função auxiliar para deletar demais elementos
-                    free(Atual); //Libera o atual
-                    return Aux; //Retorna a pasta pai
+            } else {
+                if (Atual->Filho == NULL) {
+                    Aux->Filho = Atual->Irmao;
+                    free(Atual);
+                    return Aux;
+                } else {
+                    Aux->Filho = Atual->Irmao;
+                    DeletaElementoAux(Atual->Filho);
+                    free(Atual);
+                    return Aux;
                 }
             }
         }
-        else { //caso o filho não seja o valor desejado
-            while (Atual->Irmao != NULL) { //Percorre o atual enquanto auverem pastas
-                Anterior = Atual; //Anterior recebe atual
-                Atual = Atual->Irmao; //Atual recebe o proximo irmao
-                if (strcmp(Nome, Atual->Nome) == 0) { //Compara se é o arquivo desejado
+        else {
+            while (Atual->Irmao != NULL) {
+                Anterior = Atual;
+                Atual = Atual->Irmao;
+                if (strcmp(Nome, Atual->Nome) == 0) {
                   Count++;
-                    if (Atual->Irmao == NULL) {  //Verifica se não tem irmaos
-                        if (Atual->Filho == NULL) { //Verifica se não tem filhos
-                            Anterior->Irmao = NULL; //Irmão do anterior recebe null
-                            free(Atual); //Libera o atual
-                            return Aux; //retorna a pasta pai
-                        } else { //caso tenha filhos
-                            DeletaElementoAux(Atual->Filho); //chama função auxiliar para deletar demais elementos
-                            Anterior->Irmao = NULL; //Irmão do anterior recebe null
-                            free(Atual); //Libera o atual
-                            return Aux; //retorna a pasta pai
+                    if (Atual->Irmao == NULL) {
+                        if (Atual->Filho == NULL) {
+                            Anterior->Irmao = NULL;
+                            free(Atual);
+                            return Aux;
+                        } else {
+                            DeletaElementoAux(Atual->Filho);
+                            Anterior->Irmao = NULL;
+                            free(Atual);
+                            return Aux;
                         }
-                    } else { //Caso tenha irmaos
-                        if (Atual->Filho = NULL) { //Verifica se não tem filhos
-                            Anterior->Irmao = Atual->Irmao; //Anterior recebe o proximo como irmao
-                            free(Atual); //Libera o atual
-                            return Aux; //retorna o pai
-                        } else { //Caso tenha filhos
-                            DeletaElementoAux(Atual->Filho); //chama função auxiliar para deletar demais elementos
-                            Anterior->Irmao = Atual->Irmao;  //Anterior recebe o proximo como irmao
-                            free(Atual); //Libera o atual
-                            return Aux; //retorna o pai
+                    } else {
+                        if (Atual->Filho = NULL) {
+                            Anterior->Irmao = Atual->Irmao;
+                            free(Atual);
+                            return Aux;
+                        } else {
+                            DeletaElementoAux(Atual->Filho);
+                            Anterior->Irmao = Atual->Irmao;
+                            free(Atual);
+                            return Aux;
                         }
                     }
                 }
@@ -293,4 +285,3 @@ Dir* DeletaElemento(Dir* Atual, char Nome[]) {
     }
     return Aux;
 }
-//Fim da função
