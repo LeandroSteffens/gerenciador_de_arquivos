@@ -54,7 +54,7 @@ void MostraUrl(url *Url) {
     url* tmp;
     tmp = Url->prox;
     while (tmp != NULL) {
-        printf("%s\\", tmp->Nome);
+        printf("%s-", tmp->Nome);
         tmp = tmp->prox;
     }
     printf(">");
