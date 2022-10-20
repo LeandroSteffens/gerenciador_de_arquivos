@@ -56,7 +56,7 @@ Dir* EntraDiretorio(Dir* Atual, char Nome[]) {
                 return tmp;
             }
         }
-        printf("O Sistema nao pode encontrar o caminho especificado.\n\n");
+        printf("comando invalido\n");
         tmp = Current;
     }
     return tmp;
@@ -67,7 +67,8 @@ Dir* EntraDiretorio(Dir* Atual, char Nome[]) {
 Dir* VoltarDiretorio(Dir* Atual) {
     if (Atual->Pai != NULL) {
         Atual = Atual->Pai;
-    }
+    }else
+        printf("comando invalido\n");
     return Atual;
 }
 
@@ -179,14 +180,14 @@ Dir* InserirFile(Dir* Atual, char Nome[]) {
         strcpy(novoDir->Nome, Nome);
         Atual->Filho = novoDir;
     }
-    return Pai; //Retorna o elemento pai
+    return Pai;
 }
 
 //Função responsavel por listar elementos dentro da pasta
 
 void MostrarDiretorios(Dir* Atual) {
     if (Atual->Filho == NULL)
-        printf("\n diretorio Vazio \n\n");
+        printf("\n diretorio vazio \n\n");
     else {
         Atual = Atual->Filho;
         while (Atual != NULL)
@@ -206,7 +207,7 @@ void MostrarDiretorios(Dir* Atual) {
 void DeletaElementoAux(Dir *Atual) {
     if (Atual != NULL) {
         DeletaElementoAux(Atual->Filho);
-        printf("Foi Deletado Com Sucesso: %s\n", Atual->Nome);
+        //printf("deletado com sucesso: %s\n", Atual->Nome);
         free(Atual);
         DeletaElementoAux(Atual->Irmao);
     }
@@ -282,6 +283,12 @@ Dir* DeletaElemento(Dir* Atual, char Nome[]) {
                 }
             }
         }
+        
+        if(Count == 0){
+      printf("comando invalido\n");
     }
+    
+    }
+    
     return Aux;
 }

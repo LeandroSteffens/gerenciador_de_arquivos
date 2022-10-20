@@ -17,14 +17,14 @@ void FinalizaPilha(end *End);
 void InsereElementoEnd(end *End, char v[]);
 void *DesempilhaElementoEnd(end *End);
 
-// Fução responsavel por inicializar o caixa
+// Fução responsavel por inicializar
 
 void InicializaEnd(end *End) {
     End->prox = NULL;
     tam = 0;
 }
 
-// Função responsavel por verificar se o caixa está vazio
+// Função responsavel por verificar se está vazio
 
 int VerificaVazio(end *End) {
     if (End->prox == NULL)
@@ -33,7 +33,7 @@ int VerificaVazio(end *End) {
         return 0;
 }
 
-// Função responsavel por alocar e retornar novo elemento que será inserido no caixa
+// Função responsavel por alocar e retornar novo elemento que será inserido
 
 end *AlocaElemento() {
     end *novo = (end *) malloc(sizeof (end));
@@ -47,7 +47,7 @@ end *AlocaElemento() {
 void MostraEnd(end *End) {
 
     if (VerificaVazio(End)) {
-        printf("nao existe URL\n\n");
+        printf("comando invalido\n");
         return;
     }
 
@@ -98,7 +98,7 @@ void InsereElementoEnd(end *End, char v[]) {
 
 void *DesempilhaElementoEnd(end *End) {
     if (End->prox == NULL) {
-        printf("pilha ja vazia\n\n");
+        printf("pilha ja vazia\n");
         return NULL;
     } else {
         end *ultimo = End->prox, *penultimo = End;
